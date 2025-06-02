@@ -9,7 +9,7 @@ services:
       - ./data:/data
       - ./config/redis.conf:/tmp/redis.conf.template
     env_file:
-      - ./data/.env
+      - ./.env
     environment:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
     command: >
