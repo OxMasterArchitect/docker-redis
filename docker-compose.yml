@@ -6,10 +6,10 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - ../redis/data:/data
-      - ../redis/config/redis.conf:/tmp/redis.conf.template
+      - ./data:/data
+      - ./config/redis.conf:/tmp/redis.conf.template
     env_file:
-      - ../redis/.env
+      - ./data/.env
     environment:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
     command: >
