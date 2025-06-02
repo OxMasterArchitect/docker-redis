@@ -1,0 +1,27 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - ../redis/data:/data
+      - ../redis/config/redis.conf:/tmp/redis.conf.template
+    env_file:
+      - ../redis/.env
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    command: >
+      sh -c "mkdir -p /usr/local/etc/redis && 
+             sed 's/\$${REDIS_PASSWORD}/'$REDIS_PASSWORD'/g' /tmp/redis.conf.template > /usr/local/etc/redis/redis.conf && 
+             redis-server /usr/local/etc/redis/redis.conf"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    
+
+volumes:
+  redis_data:
